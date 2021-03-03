@@ -380,17 +380,17 @@ class FilesystemTest extends TestCase
         $entity = $this->manager->upload($this->testFile);
 
         // rename to dummy2
-        $this->manager->rename($entity, 'dummy2.png');
+        $this->manager->move($entity, 'dummy2.png');
         $this->assertEquals('dummy2.png', $entity->path);
         $this->assertEventFiredWith('Filesystem.beforeRename', 'entity', $entity, $this->manager->getEventManager());
         $this->assertEventFiredWith('Filesystem.afterRename', 'entity', $entity, $this->manager->getEventManager());
 
         // try again, file should excist and exception should be thrown
         $this->expectException('\League\Flysystem\FileExistsException');
-        $this->manager->rename($entity, 'dummy2.png');
+        $this->manager->move($entity, 'dummy2.png');
 
         // now rename once again
-        $this->manager->rename($entity, 'dummy.png');
+        $this->manager->move($entity, 'dummy.png');
     }
 
     /**
@@ -419,7 +419,7 @@ class FilesystemTest extends TestCase
             $this->assertEquals('dummy2.png', $file->getPath());
         });
 
-        $this->manager->rename($entity, 'dummy2.png');
+        $this->manager->move($entity, 'dummy2.png');
 
         $this->assertEquals(2, $called);
     }
@@ -446,7 +446,7 @@ class FilesystemTest extends TestCase
             $this->fail('Should not be fired');
         });
 
-        $this->assertSame('hello!', $this->manager->rename($entity, 'dummy2.png'));
+        $this->assertSame('hello!', $this->manager->move($entity, 'dummy2.png'));
     }
 
     /**
@@ -469,7 +469,7 @@ class FilesystemTest extends TestCase
             'filename' => 'dummy2.png',
         ]);
 
-        $this->manager->rename($copied, 'dummy.png', true);
+        $this->manager->move($copied, 'dummy.png', true);
         $this->assertFileExists(dirname(__DIR__) . '/test_app/assets/dummy.png');
     }
 
@@ -487,7 +487,7 @@ class FilesystemTest extends TestCase
 
         $this->assertEquals('dummy.png', $entity->getPath());
 
-        $this->manager->rename($entity, [
+        $this->manager->move($entity, [
             'formatter' => 'Entity',
             'data' => new Entity([
                 'id' => 'cool-id',

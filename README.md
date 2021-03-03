@@ -333,7 +333,7 @@ $this->getFilesystem()->copy($entity, $config, $force);
 
 // Rename an entity
 // Will fire Filesystem.beforeRename and Filesystem.afterRename
-$this->getFilesystem()->rename($entity, $config, $force);
+$this->getFilesystem()->move($entity, $config, $force);
 
 // Delete an entity from the FS
 // Will fire Filesystem.beforeDelete and Filesystem.afterDelete
